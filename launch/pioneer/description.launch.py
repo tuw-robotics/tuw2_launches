@@ -13,13 +13,10 @@ import xacro
 
 def generate_launch_description():
 
-    use_sim_time     = LaunchConfiguration('use_sim_time',  default='true')
+    use_sim_time     = LaunchConfiguration('use_sim_time',  default='false')
     namespace_arg    = DeclareLaunchArgument('namespace',   default_value=TextSubstitution(text=''))
     model_name_arg   = DeclareLaunchArgument('model_name',  default_value=TextSubstitution(text='robot0'))
     robot_arg        = DeclareLaunchArgument('robot',       default_value=TextSubstitution(text='pioneer3dx'))
-    X_launch_arg     = DeclareLaunchArgument('X',           default_value=TextSubstitution(text='0.0'))
-    Y_launch_arg     = DeclareLaunchArgument('Y',           default_value=TextSubstitution(text='0.0'))
-    Theta_launch_arg = DeclareLaunchArgument('Theta',       default_value=TextSubstitution(text='0.0'))
 
     models_dir = get_package_share_directory('tuw_gazebo_models') + '/models'
 
@@ -43,9 +40,6 @@ def generate_launch_description():
     return LaunchDescription([
         namespace_arg,
         robot_arg,
-        X_launch_arg,
-        Y_launch_arg,
-        Theta_launch_arg,
         create_robot_description_arg,
         model_name_arg,
         Node(
