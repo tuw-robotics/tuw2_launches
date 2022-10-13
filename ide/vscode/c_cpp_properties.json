@@ -4,8 +4,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include/**",
-                "/opt/ros/galactic/include/**",
-                "/opt/mxr/include/**"
+                "/opt/ros/humble/include/**"
             ],
             "name": "ROS",
             "intelliSenseMode": "gcc-x64",
