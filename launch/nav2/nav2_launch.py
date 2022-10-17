@@ -25,6 +25,7 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.actions import PushRosNamespace
 from nav2_common.launch import RewrittenYaml
+from launch.actions import OpaqueFunction
 
 
 def generate_launch_description():
@@ -82,9 +83,17 @@ def generate_launch_description():
         default_value='False',
         description='Whether run a SLAM')
 
-    declare_map_yaml_cmd = DeclareLaunchArgument(
-        'map',
-        description='Full path to map yaml file to load')
+    declare_room_cmd = DeclareLaunchArgument(
+        'room',
+        default_value='cave',
+        description='room/map to use')
+
+    def get_map_file(context): 
+        map_yaml = os.path.join(bringup_dir, 'config', 'map', context.launch_configurations['room'], 'map.yaml')
+        return [DeclareLaunchArgument('map', default_value=map_yaml, description='Full path to map yaml file to load')]
+
+    declare_map_yaml_cmd_arg = OpaqueFunction(function=get_map_file)
+
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         'use_sim_time',
@@ -170,7 +179,8 @@ def generate_launch_description():
     ld.add_action(declare_namespace_cmd)
     ld.add_action(declare_use_namespace_cmd)
     ld.add_action(declare_slam_cmd)
-    ld.add_action(declare_map_yaml_cmd)
+    ld.add_action(declare_room_cmd)
+    ld.add_action(declare_map_yaml_cmd_arg)
     ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_autostart_cmd)
