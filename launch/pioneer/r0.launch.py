@@ -17,6 +17,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     use_sim_time     = LaunchConfiguration('use_sim_time',  default='false')
+    pioneer_id       = LaunchConfiguration('use_sim_time',  default=0)
     namespace_arg    = DeclareLaunchArgument('namespace',   default_value=TextSubstitution(text=''))
     model_name_arg   = DeclareLaunchArgument('model_name',  default_value=TextSubstitution(text='robot0'))
     robot_arg        = DeclareLaunchArgument('robot',       default_value=TextSubstitution(text='pioneer3dx'))
@@ -29,7 +30,16 @@ def generate_launch_description():
         model_name_arg,
         robot_arg,
         IncludeLaunchDescription( PythonLaunchDescriptionSource( os.path.join(config_pgk_dir, 'launch', 'pioneer', 'description.launch.py'))),
-        IncludeLaunchDescription( PythonLaunchDescriptionSource( os.path.join(config_pgk_dir, 'launch', 'pioneer', 'hokuyo.launch.py')))
+        IncludeLaunchDescription( PythonLaunchDescriptionSource( os.path.join(config_pgk_dir, 'launch', 'pioneer', 'hokuyo.launch.py'))),
+        Node(
+            package="ros2aria",
+            executable="ros2aria",
+            name=LaunchConfiguration('model_name'),
+            namespace=[LaunchConfiguration('namespace')],
+            parameters=[{
+                "use_sim_time": use_sim_time,
+                "pioneer_id": pioneer_id}],
+            output="screen"),
     ])
 
 
