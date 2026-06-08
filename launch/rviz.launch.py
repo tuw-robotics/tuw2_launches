@@ -13,7 +13,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
 
-    use_sim_time     = LaunchConfiguration('use_sim_time',  default='true')
+    use_sim_time     = LaunchConfiguration('use_sim_time',  default='false')
     tuw_gazebo_models = get_package_share_directory('tuw2_launches')
 
     def rviz_launch_configuration(context):
@@ -22,9 +22,9 @@ def generate_launch_description():
 
     namespace_arg    = DeclareLaunchArgument('namespace',   default_value=TextSubstitution(text=''))
     rviz_launch_configuration_arg = OpaqueFunction(function=rviz_launch_configuration)
-    rviz_config_arg = DeclareLaunchArgument('config', 
-                default_value=TextSubstitution(text='empty'), 
-                description='Use empty, cave or roblab to load a TUW enviroment')
+    rviz_config_arg = DeclareLaunchArgument('config',
+                default_value=TextSubstitution(text='robot0'),
+                description='Rviz config to use')
 
     return LaunchDescription([
         namespace_arg,

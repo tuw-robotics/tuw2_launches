@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find tuw2_launches)/config/robot_description/pioneer2dx/wheel.xacro"/>
+
+  <material name="ChassisRed"  ><color rgba="0.851 0.0 0.0 1.0"/></material>
+  <material name="TopBlack"    ><color rgba="0.038 0.038 0.038 1.0"/></material>
+  <material name="Swivel"      ><color rgba="0.5 0.5 0.5 1.0"/></material>
+  <material name="WheelBlack"  ><color rgba="0.117 0.117 0.117 1.0"/></material>
+  <material name="HubcapYellow"><color rgba="1.0 0.811 0.151 1.0"/></material>
+  <material name="SonarYellow" ><color rgba="0.715 0.583 0.210 1.0"/></material>
+
+  <link name="base_link">
+    <inertial>
+      <mass value="20.0"/>
+      <origin xyz="-0.045 0 0.148"/>
+      <inertia ixx="0.3338" ixy="0.0" ixz="0.0"
+               iyy="0.4783" iyz="0.0"
+               izz="0.3338"/>
+    </inertial>
+    <visual>
+      <origin xyz="-0.045 0 0.148" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/chassis.stl"/>
+      </geometry>
+      <material name="ChassisRed"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.045 0 0.148" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.4 0.28 0.17"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="base_footprint"/>
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="base_footprint"/>
+  </joint>
+
+  <link name="top_plate">
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/top.stl"/>
+      </geometry>
+      <material name="TopBlack"/>
+    </visual>
+  </link>
+  <joint name="base_top_joint" type="fixed">
+    <origin xyz="-0.045 0 0.24" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="top_plate"/>
+  </joint>
+
+  <link name="swivel">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/swivel.stl"/>
+      </geometry>
+      <material name="Swivel"/>
+    </visual>
+  </link>
+  <joint name="base_swivel_joint" type="continuous">
+    <origin xyz="-0.185 0 0.055" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+    <parent link="base_link"/>
+    <child  link="swivel"/>
+  </joint>
+
+  <link name="center_wheel">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.012411765597" ixy="0" ixz="0"
+               iyy="0.015218160428" iyz="0"
+               izz="0.011763977943"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/center_wheel.stl"/>
+      </geometry>
+      <material name="WheelBlack"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${-M_PI/2} 0 0"/>
+      <geometry>
+        <cylinder radius="0.0375" length="0.0314"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="swivel_hubcap_joint" type="continuous">
+    <origin xyz="-0.026 0 -0.016" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+    <parent link="swivel"/>
+    <child  link="center_wheel"/>
+  </joint>
+
+  <link name="center_hubcap">
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.012411765597" ixy="0" ixz="0"
+               iyy="0.015218160428" iyz="0"
+               izz="0.011763977943"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/center_hubcap.stl"/>
+      </geometry>
+      <material name="Swivel"/>
+    </visual>
+  </link>
+  <joint name="center_wheel_hub_joint" type="fixed">
+    <origin xyz="-0.0035 0 -0.001" rpy="0 0 0"/>
+    <parent link="center_wheel"/>
+    <child  link="center_hubcap"/>
+  </joint>
+
+  <xacro:p2dx_wheel suffix="left"  parent="base_link" reflect="1"/>
+  <xacro:p2dx_wheel suffix="right" parent="base_link" reflect="-1"/>
+
+  <link name="front_sonar">
+    <inertial>
+      <mass value="0.0001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/front_sonar.stl"/>
+      </geometry>
+      <material name="SonarYellow"/>
+    </visual>
+  </link>
+  <joint name="base_front_sonar_joint" type="fixed">
+    <origin xyz="-0.198 0 0.208" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="front_sonar"/>
+  </joint>
+
+  <link name="back_sonar">
+    <inertial>
+      <mass value="0.0001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/back_sonar.stl"/>
+      </geometry>
+      <material name="SonarYellow"/>
+    </visual>
+  </link>
+  <joint name="base_back_sonar_joint" type="fixed">
+    <origin xyz="0.109 0 0.209" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child  link="back_sonar"/>
+  </joint>
+
+  <link name="base_laser"/>
+  <joint name="top_to_laser_joint" type="fixed">
+    <origin xyz="0 0 ${laser_z}" rpy="0 0 0"/>
+    <parent link="top_plate"/>
+    <child  link="base_laser"/>
+  </joint>
+
+</robot>

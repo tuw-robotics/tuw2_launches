@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="p2dx_wheel" params="suffix parent reflect">
+    <link name="p2dx_${suffix}_wheel">
+      <inertial>
+        <mass value="0.5"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.012411765597" ixy="0" ixz="0"
+                 iyy="0.015218160428" iyz="0"
+                 izz="0.011763977943"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/${suffix}_wheel.stl"/>
+        </geometry>
+        <material name="WheelBlack"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 0"/>
+        <geometry>
+          <cylinder radius="0.09" length="0.04"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="p2dx_${suffix}_hubcap">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.012411765597" ixy="0" ixz="0"
+                 iyy="0.015218160428" iyz="0"
+                 izz="0.011763977943"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/${suffix}_hubcap.stl"/>
+        </geometry>
+        <material name="HubcapYellow"/>
+      </visual>
+    </link>
+
+    <joint name="base_${suffix}_hubcap_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="p2dx_${suffix}_wheel"/>
+      <child  link="p2dx_${suffix}_hubcap"/>
+    </joint>
+
+    <joint name="base_${suffix}_wheel_joint" type="continuous">
+      <axis xyz="0 1 0"/>
+      <limit effort="100" velocity="100"/>
+      <joint_properties damping="0.0" friction="0.0"/>
+      <origin xyz="0 ${reflect*0.158} 0.091" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child  link="p2dx_${suffix}_wheel"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

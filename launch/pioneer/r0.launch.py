@@ -3,43 +3,47 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.actions import OpaqueFunction
-from launch.actions import SetLaunchConfiguration
-from launch.actions import IncludeLaunchDescription
-from launch.substitutions import LaunchConfiguration
-from launch.substitutions import PathJoinSubstitution
-from launch.substitutions import LaunchConfiguration, TextSubstitution
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
-from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
 
 
 def generate_launch_description():
-    use_sim_time     = LaunchConfiguration('use_sim_time',  default='false')
-    pioneer_id       = LaunchConfiguration('use_sim_time',  default=0)
-    namespace_arg    = DeclareLaunchArgument('namespace',   default_value=TextSubstitution(text=''))
-    model_name_arg   = DeclareLaunchArgument('model_name',  default_value=TextSubstitution(text='robot0'))
-    robot_arg        = DeclareLaunchArgument('robot',       default_value=TextSubstitution(text='pioneer3dx'))
-    
-    this_pgk = 'tuw2_launches'
-    config_pgk_dir = get_package_share_directory(this_pgk)
-    
+    tuw_dir = get_package_share_directory('tuw2_launches')
+    aria_dir = get_package_share_directory('pioneer_aria')
+
+    aria_params = os.path.join(tuw_dir, 'config', 'pioneer', 'aria.yaml')
+
+    namespace = LaunchConfiguration('namespace')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    with_lidar = LaunchConfiguration('with_lidar')
+
     return LaunchDescription([
-        namespace_arg,
-        model_name_arg,
-        robot_arg,
-        IncludeLaunchDescription( PythonLaunchDescriptionSource( os.path.join(config_pgk_dir, 'launch', 'pioneer', 'description.launch.py'))),
-        IncludeLaunchDescription( PythonLaunchDescriptionSource( os.path.join(config_pgk_dir, 'launch', 'pioneer', 'hokuyo.launch.py'))),
-        Node(
-            package="ros2aria",
-            executable="ros2aria",
-            name=LaunchConfiguration('model_name'),
-            namespace=[LaunchConfiguration('namespace')],
-            parameters=[{
-                "use_sim_time": use_sim_time,
-                "pioneer_id": pioneer_id}],
-            output="screen"),
+        DeclareLaunchArgument('namespace', default_value=''),
+        DeclareLaunchArgument('use_sim_time', default_value='false'),
+        DeclareLaunchArgument('with_lidar', default_value='true'),
+        DeclareLaunchArgument('lidar_port', default_value='/dev/ttyUSB1'),
+
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(
+            os.path.join(tuw_dir, 'launch', 'pioneer', 'description.launch.py')),
+            launch_arguments={
+                'namespace': namespace,
+                'use_sim_time': use_sim_time,
+            }.items()),
+
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(
+            os.path.join(aria_dir, 'launch', 'aria.launch.py')),
+            launch_arguments={
+                'namespace': namespace,
+                'use_sim_time': use_sim_time,
+                'params_file': aria_params,
+            }.items()),
+
+        IncludeLaunchDescription(PythonLaunchDescriptionSource(
+            os.path.join(tuw_dir, 'launch', 'pioneer', 'lidar.launch.py')),
+            launch_arguments={
+                'port_name': LaunchConfiguration('lidar_port'),
+            }.items(),
+            condition=IfCondition(with_lidar)),
     ])
-
-
