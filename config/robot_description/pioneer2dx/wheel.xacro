@@ -13,7 +13,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/${suffix}_wheel.stl"/>
+          <mesh filename="package://tuw_bringup/config/robot_description/pioneer2dx/meshes/${suffix}_wheel.stl"/>
         </geometry>
         <material name="WheelBlack"/>
       </visual>
@@ -36,7 +36,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/${suffix}_hubcap.stl"/>
+          <mesh filename="package://tuw_bringup/config/robot_description/pioneer2dx/meshes/${suffix}_hubcap.stl"/>
         </geometry>
         <material name="HubcapYellow"/>
       </visual>

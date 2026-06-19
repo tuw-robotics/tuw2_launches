@@ -10,7 +10,7 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    pkg = get_package_share_directory('tuw2_launches')
+    pkg = get_package_share_directory('tuw_bringup')
     xacro_file = os.path.join(pkg, 'config', 'robot_description', 'pioneer2dx', 'main.xacro')
     robot_description = xacro.process_file(xacro_file).toxml()
 

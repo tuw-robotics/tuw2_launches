@@ -15,7 +15,7 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    this_pgk = 'tuw2_launches'
+    this_pgk = 'tuw_bringup'
     config_pgk_dir = get_package_share_directory(this_pgk)
     config_laser = os.path.join(config_pgk_dir, "config", "pioneer", "hokuyo", "urg_node_ethernet.yaml")
     def expand_param_file_name(context):

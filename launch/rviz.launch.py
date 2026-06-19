@@ -14,7 +14,7 @@ def generate_launch_description():
 
 
     use_sim_time     = LaunchConfiguration('use_sim_time',  default='false')
-    tuw_gazebo_models = get_package_share_directory('tuw2_launches')
+    tuw_gazebo_models = get_package_share_directory('tuw_bringup')
 
     def rviz_launch_configuration(context):
         file = os.path.join(tuw_gazebo_models, 'config/rviz', context.launch_configurations['config'] + '.rviz')

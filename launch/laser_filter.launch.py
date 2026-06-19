@@ -5,7 +5,7 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
-    this_pgk = 'tuw2_launches'
+    this_pgk = 'tuw_bringup'
     this_pgk_dir = get_package_share_directory(this_pgk)
     return LaunchDescription([
         Node(

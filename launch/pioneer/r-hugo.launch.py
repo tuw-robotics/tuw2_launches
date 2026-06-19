@@ -11,7 +11,7 @@ from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
-    tuw_dir = get_package_share_directory('tuw2_launches')
+    tuw_dir = get_package_share_directory('tuw_bringup')
     aria_dir = get_package_share_directory('pioneer_aria')
 
     aria_params = os.path.join(tuw_dir, 'config', 'pioneer', 'aria.yaml')

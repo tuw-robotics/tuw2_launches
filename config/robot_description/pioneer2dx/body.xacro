@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find tuw2_launches)/config/robot_description/pioneer2dx/wheel.xacro"/>
+  <xacro:include filename="$(find tuw_bringup)/config/robot_description/pioneer2dx/wheel.xacro"/>
 
   <material name="ChassisRed"  ><color rgba="0.851 0.0 0.0 1.0"/></material>
   <material name="TopBlack"    ><color rgba="0.038 0.038 0.038 1.0"/></material>
@@ -21,7 +21,7 @@
     <visual>
       <origin xyz="-0.045 0 0.148" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/chassis.stl"/>
+        <mesh filename="package://tuw_bringup/config/robot_description/pioneer2dx/meshes/chassis.stl"/>
       </geometry>
       <material name="ChassisRed"/>
     </visual>
@@ -49,7 +49,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/top.stl"/>
+        <mesh filename="package://tuw_bringup/config/robot_description/pioneer2dx/meshes/top.stl"/>
       </geometry>
       <material name="TopBlack"/>
     </visual>
@@ -69,7 +69,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/swivel.stl"/>
+        <mesh filename="package://tuw_bringup/config/robot_description/pioneer2dx/meshes/swivel.stl"/>
       </geometry>
       <material name="Swivel"/>
     </visual>
@@ -94,7 +94,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/center_wheel.stl"/>
+        <mesh filename="package://tuw_bringup/config/robot_description/pioneer2dx/meshes/center_wheel.stl"/>
       </geometry>
       <material name="WheelBlack"/>
     </visual>
@@ -125,7 +125,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/center_hubcap.stl"/>
+        <mesh filename="package://tuw_bringup/config/robot_description/pioneer2dx/meshes/center_hubcap.stl"/>
       </geometry>
       <material name="Swivel"/>
     </visual>
@@ -148,7 +148,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/front_sonar.stl"/>
+        <mesh filename="package://tuw_bringup/config/robot_description/pioneer2dx/meshes/front_sonar.stl"/>
       </geometry>
       <material name="SonarYellow"/>
     </visual>
@@ -168,7 +168,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://tuw2_launches/config/robot_description/pioneer2dx/meshes/back_sonar.stl"/>
+        <mesh filename="package://tuw_bringup/config/robot_description/pioneer2dx/meshes/back_sonar.stl"/>
       </geometry>
       <material name="SonarYellow"/>
     </visual>

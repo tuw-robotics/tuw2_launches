@@ -4,5 +4,5 @@
   <xacro:property name="M_PI" value="3.14159265358979"/>
   <xacro:property name="laser_z" value="0.07"/>
 
-  <xacro:include filename="$(find tuw2_launches)/config/robot_description/pioneer2dx/body.xacro"/>
+  <xacro:include filename="$(find tuw_bringup)/config/robot_description/pioneer2dx/body.xacro"/>
 </robot>

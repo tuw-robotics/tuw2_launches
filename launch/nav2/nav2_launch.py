@@ -30,7 +30,7 @@ from launch.actions import OpaqueFunction
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('tuw2_launches')
+    bringup_dir = get_package_share_directory('tuw_bringup')
     launch_dir = os.path.join(bringup_dir, 'launch')
 
     # Create the launch configuration variables
