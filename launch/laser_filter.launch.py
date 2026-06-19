@@ -13,7 +13,7 @@ def generate_launch_description():
             executable="scan_to_scan_filter_chain",
             parameters=[
                 PathJoinSubstitution([
-                    this_pgk_dir, "config/laser_filter/pioneer2dx", "shadow_filter_example.yaml",
+                    this_pgk_dir, "config/laser_filter/pioneer2dx", "remove_body.yaml",
                 ])],
             remappings=[
                 ("scan", "scan_raw"),

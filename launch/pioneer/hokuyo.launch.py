@@ -20,7 +20,6 @@ def generate_launch_description():
     config_laser = os.path.join(config_pgk_dir, "config", "pioneer", "hokuyo", "urg_node_ethernet.yaml")
     def expand_param_file_name(context):
         if os.path.exists(config_laser):
-            print("hihi")
             return [SetLaunchConfiguration('param', config_laser)]
 
     param_file_path = OpaqueFunction(function=expand_param_file_name)
